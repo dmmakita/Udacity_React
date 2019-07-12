@@ -8,7 +8,8 @@ const BookShelf = (props) => {
             <h2 className="bookshelf-title">{props.title}</h2>
             <div className="bookshelf-books">
                 <BooksGrid books={props.books}
-                           changeBookShelf={props.changeBookShelf} />
+                           changeBookShelf={props.changeBookShelf}
+                           whichShelf={props.whichShelf}/>
             </div>
         </div>
     )

@@ -4,6 +4,7 @@ import './App.css'
 import BookList from './BookList'
 import SearchBooks from "./SearchBooks";
 import * as BooksAPI from "./BooksAPI"
+import { Route } from 'react-router-dom'
 
 
 class BooksApp extends React.Component {
@@ -15,8 +16,6 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     books: [],
-    searchBooks: [],
-    showSearchPage: true
   };
   componentDidMount = () => {
       BooksAPI.getAll()
@@ -34,10 +33,21 @@ class BooksApp extends React.Component {
           })
       }))};
 
+  whichShelf = (book) => {
+      let searchBook = this.state.books.find(b => b.id === book.id)
+      if (searchBook) {
+          return searchBook.shelf
+      }
+      else{
+          return "none"
+      }
+
+  };
+
   changeBookShelf = (book, newShelf) => {
       if(book) {
+          console.log("Atualizando livro: " + book.title)
           BooksAPI.update(book, newShelf);
-
 
           let update = [];
           update = this.state.books.filter(b => b.id !== book.id)
@@ -57,12 +67,22 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-          <p>{JSON.stringify(this.state.allBooks)}</p>
-        {this.state.showSearchPage ? (
-          <SearchBooks/>
-        ) : (
-              <BookList books={this.state.books} changeBookShelf={this.changeBookShelf}/>
-        )}
+          <Route path='/search' render={() => (
+              <SearchBooks
+                  changeBookShelf={this.changeBookShelf}
+                  whichShelf={this.whichShelf}
+              />
+          )}
+          />
+          <Route exact path='/' render={() => (
+              <BookList
+                  books={this.state.books}
+                  changeBookShelf={this.changeBookShelf}
+                  whichShelf={this.whichShelf}
+              />
+          )}
+          />
+
       </div>
     )
   }

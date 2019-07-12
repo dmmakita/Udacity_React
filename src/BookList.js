@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 import BookShelf from './BookShelf'
-
+import { Link } from 'react-router-dom'
 
 
 class BookList extends Component {
@@ -21,25 +21,33 @@ class BookList extends Component {
                             return book.shelf === "currentlyReading"
                         })}
                                    title="Currently Reading"
-                                   changeBookShelf={this.props.changeBookShelf} />
+                                   changeBookShelf={this.props.changeBookShelf}
+                                   whichShelf={this.props.whichShelf}/>
 
                         <BookShelf books={this.props.books.filter((book) => {
                             return book.shelf === "wantToRead"
                         })}
                                    title="Want to Read"
-                                   changeBookShelf={this.props.changeBookShelf} />
+                                   changeBookShelf={this.props.changeBookShelf}
+                                   whichShelf={this.props.whichShelf}/>
 
                         <BookShelf books={this.props.books.filter((book) => {
                             return book.shelf === "read"
                         })}
                                    title="Read"
-                                   changeBookShelf={this.props.changeBookShelf} />
+                                   changeBookShelf={this.props.changeBookShelf}
+                                   whichShelf={this.props.whichShelf}/>
 
                     </div>
 
                 </div>
                 <div className="open-search">
-                    <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
+                    <Link
+                        to='/search'
+                        >
+                        <button >Add a book</button>
+                    </Link>
+
                 </div>
             </div>
         )

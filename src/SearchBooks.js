@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import BooksGrid from "./BooksGrid";
+import {debounce} from "lodash"
 import * as BooksAPI from "./BooksAPI";
 // import PropTypes from 'prop-types'
-
+import { Link } from 'react-router-dom'
 
 class SearchBooks extends Component {
     state = {
@@ -10,19 +11,34 @@ class SearchBooks extends Component {
         searchBooks: []
     };
 
-
-    componentDidMount = () => {
-        BooksAPI.search(this.state.query)
-            .then((searchBooks) => {
-                this.setState(() => ({
-                    searchBooks
-                }))
-    })}
+    search = (queryTerm) => {
+        console.log("search: " + queryTerm)
+        if(queryTerm.length>0){
+            BooksAPI.search(queryTerm)
+                .then((searchBooks) => {
+                    this.setState({searchBooks: searchBooks})
+        })
+                .catch(err => {
+                    console.log(err);
+                });}
+        else{
+            this.setState({searchBooks: []})
+        }};
 
     updateQuery = (query) => {
+        console.log("updateQuery: " + query)
+        if (query.trim().length>0){
+            this.search(query);
+        }
+        else {
+            this.setState({searchBooks: []})
+        }
         this.setState(() => ({
-            query: query.trim()
-        }))
+            query: query
+        }));
+
+
+
 
     };
 
@@ -31,8 +47,11 @@ class SearchBooks extends Component {
         return (
             <div className="search-books">
                 <div className="search-books-bar">
-                    <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
-                    <div className="search-books-input-wrapper">
+                    <Link
+                        to='/'>
+                        <button className="close-search">Close</button>
+                    </Link>
+                     <div className="search-books-input-wrapper">
                         {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.
                   You can find these search terms here:
@@ -51,7 +70,11 @@ class SearchBooks extends Component {
                     </div>
                 </div>
                 <div className="search-books-results">
-                    <BooksGrid books={this.searchBooks} changeBookShelf={this.props.changeBookShelf}/>
+                    <BooksGrid
+                        books={this.state.query.length>0?this.state.searchBooks:[]}
+                        changeBookShelf={this.props.changeBookShelf}
+                        whichShelf={this.props.whichShelf}
+                    />
                 </div>
             </div>
         )
