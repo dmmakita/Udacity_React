@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import BooksGrid from "./BooksGrid";
-import {debounce} from "lodash"
 import * as BooksAPI from "./BooksAPI";
 // import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
@@ -12,12 +11,12 @@ class SearchBooks extends Component {
     };
 
     search = (queryTerm) => {
-        console.log("search: " + queryTerm)
+        console.log("search: " + queryTerm);
         if(queryTerm.length>0){
             BooksAPI.search(queryTerm)
                 .then((searchBooks) => {
                     this.setState({searchBooks: searchBooks})
-        })
+                })
                 .catch(err => {
                     console.log(err);
                 });}
@@ -26,7 +25,7 @@ class SearchBooks extends Component {
         }};
 
     updateQuery = (query) => {
-        console.log("updateQuery: " + query)
+        console.log("updateQuery: " + query);
         if (query.trim().length>0){
             this.search(query);
         }
@@ -51,7 +50,7 @@ class SearchBooks extends Component {
                         to='/'>
                         <button className="close-search">Close</button>
                     </Link>
-                     <div className="search-books-input-wrapper">
+                    <div className="search-books-input-wrapper">
                         {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.
                   You can find these search terms here:
