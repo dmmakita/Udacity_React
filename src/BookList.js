@@ -2,7 +2,12 @@ import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 import BookShelf from './BookShelf'
 
+
+
 class BookList extends Component {
+
+
+
     render() {
         return (
             <div className="list-books">
@@ -11,7 +16,25 @@ class BookList extends Component {
                 </div>
                 <div className="list-books-content">
                     <div>
-                        <BookShelf/>
+
+                        <BookShelf books={this.props.books.filter((book) => {
+                            return book.shelf === "currentlyReading"
+                        })}
+                                   title="Currently Reading"
+                                   changeBookShelf={this.props.changeBookShelf} />
+
+                        <BookShelf books={this.props.books.filter((book) => {
+                            return book.shelf === "wantToRead"
+                        })}
+                                   title="Want to Read"
+                                   changeBookShelf={this.props.changeBookShelf} />
+
+                        <BookShelf books={this.props.books.filter((book) => {
+                            return book.shelf === "read"
+                        })}
+                                   title="Read"
+                                   changeBookShelf={this.props.changeBookShelf} />
+
                     </div>
 
                 </div>
@@ -21,6 +44,7 @@ class BookList extends Component {
             </div>
         )
     }
+    currentlyReading = this.props.books.filter(book => book.shelf === "currentlyReading");
 }
 
 export default BookList
