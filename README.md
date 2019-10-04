@@ -1,8 +1,3 @@
-# MyReads Project
-
-MyReads is a app to manage lists such as Reading, Want to Read and Read.
-One can search for a book in remote database and add it to one of those lists.
-
 
 ### Installation and Running
 
